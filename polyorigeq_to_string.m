@@ -1,32 +1,39 @@
-function [f]=polyorigeq_to_string(IN)
+function [f]=polyorigeq_to_string(IN,varname,idx0)
+% Convert one polyorig equation into a string
+% (Heavily based on Jan Verschelde's form_poly from PHCpack/PHClab)
+% [f]=polyorigeq_to_string(IN,varname)
+% INPUT
+%   IN        = polyorig equation (first col are coeffs, 
+%               remaining cols are monomials)
+%   varname   = name of (symbolic) variables ['x']
+%   idx0      = numerically index variables from 0 [false]
+%
+% OUTPUT
+%   f      = polynomial equation expressed as string 
+%            in the variabes x1,...,xn
+%
+% CALLS
+%    [none]
+%
+% AUTHOR: 
+%    Philippe DREESEN
+%    philippe.dreesen@gmail.com
+%    2008-2013/April 2015
+
+% default arguments
+if nargin < 2,
+    varname = 'x';
+    idx0 = 0;
+end
+
+if nargin < 3,
+    idx0 = 0;
+end
 
 n_var = size(IN,2)-1;
 coeff = IN(:,1);
 exponent = IN(:,2:end)';
 
-%
-% [f]=form_poly(n_var,coeff,exponent)
-% form one polynomial given coefficients and exponents list
-% INPUTs:
-%   n_var  = number of variables in the system
-%   coeff  = mx1 vector of coefficients, m=number of terms
-%   exponent = nxm matrix of exponents
-%              n should be same as n_var 
-%              the mth column is the exponents of the mth term
-%
-% OUTPUT:
-%   f  = sum of terms;
-%        Each term is a coefficient times variables raised to
-%        their respective exponents
-% Example:
-% n_var    = 4
-% coeff    = [1; 1; 1.6009e-001 +9.8710e-001i]
-% exponent = [1 0 0;
-%             0 1 0;
-%             2 0 0;
-%             0 2 0]
-% function returns a polynomial x1*x3**2 + x2*x4**2 + (0.16009+0.9871*i)
-%
 r=size(exponent,1);
 c=size(exponent,2);
 m=size(coeff,1);
@@ -38,10 +45,16 @@ coformat='%20.16f';
 
 % form variable list
 x=cell(1,n_var);
-for ii=1:n_var
-    x{1,ii}=['x' num2str(ii)];
-end
 
+if ~idx0,
+    for ii=1:n_var,
+         x{1,ii}=[varname num2str(ii)];
+    end
+else
+    for ii=0:n_var-1,
+         x{1,ii+1}=[varname num2str(ii)];
+    end
+end
 % looks like matrix multiplication
 monomial=cell(1,c);
 for ii=1:1

@@ -1,7 +1,6 @@
 function [solsxi,canonkernel,M,Z,dreg,inds,S1,S2,A,B,V,D]=rootfinding(polyorig,naff,d);
 % Wrapper function for root-finding
 % 
-%
 % SIGNATURE
 % [solsxi,canonkernel,M,Z,dreg,inds,S1,S2,A,B,V,D]=rootfinding(polyorig);
 % [solsxi,canonkernel,M,Z,dreg,inds,S1,S2,A,B,V,D]=rootfinding(polyorig,naff);

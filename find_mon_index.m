@@ -30,7 +30,11 @@ function idx=find_mon_index(newmon,mons)
 % use fetr, frte
 
 % idx=find_mon_index(newmon, mons)
-% Find the position (i.e., index or row number) where the monomial newmon occurs in the basis of monomials mons
+% Find the position (i.e., index or row number) where monomial 'newmon'
+% occurs in 'mons'
+
+% should be row vector!
+newmon=newmon(:).';
 
 idx = 0;
 for posi=1:size(mons,1),

@@ -57,7 +57,7 @@ if sylflag ==0,
             MM(ridx,:) = M(ridx,:);
             NZM(ridx,:) = M(ridx,:);
         end
-        spy(MM,colors(i));
+        spy(MM,25,colors(i));
 
     end
 
@@ -158,7 +158,7 @@ else,
             MM(ridx,:) = M(ridx,:);
             NZM(ridx,:) = M(ridx,:);
         end
-        spy(MM,colors(EQ));
+        spy(MM,25,colors(EQ));
 
     end
 
@@ -174,7 +174,7 @@ else,
         Y = rp-.5;
         Y = [Y ; Y];
     %     plot(X,Y,'k-','LineWidth',1.75) 
-        plot(X,Y,'k-') 
+        plot(X,Y,'k-')  
     end
 
 

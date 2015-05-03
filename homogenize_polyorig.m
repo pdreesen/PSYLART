@@ -1,8 +1,8 @@
-function polyorighom=homogenize_polyorig(polyorig),
+function polyorighom=homogenize_polyorig(polyorig, firstcol),
 % Homogenize a given polynomial system.
 %  
 % SIGNATURE
-% polyorighom=homogenize_polyorig(polyorig);
+% polyorighom=homogenize_polyorig(polyorig, firstcol);
 %
 % DESCRIPTION
 % Homogenizes a system of polynomial equations: returns homogeneous 
@@ -12,9 +12,11 @@ function polyorighom=homogenize_polyorig(polyorig),
 % 
 % INPUTS
 %    polyorig   =    input system of polynomials
+%    firstcol   =    introduce homogenization variable as first variable
+%                       [default: false]
 %
 % OUTPUTS
-%    polyorigh  =    system of homogeneous polynomials 
+%    polyorigh  =    system of homogeneous polynomials in polyorig format
 %
 % EXAMPLE
 % >> polyorig{1} = [1 1 2; -3 2 0; 1 1 0; -2 0 1]; 
@@ -37,14 +39,16 @@ function polyorighom=homogenize_polyorig(polyorig),
 %      1     1     0     2
 %     -5     0     0     3
 % 
-% 
 % CALLS
 %    get_info 
 %
 % AUTHOR
 %   Philippe Dreesen (philippe.dreesen@gmail.com)
-%   June 2010
+%   June 2010/April 2015
 %
+
+% default argument: homogenization as last variable
+if nargin==1, firstcol=0; end
 
 % get info from system
 [neq, nvar, degrees, dmin, coeffs, expons, bezout]=get_info(polyorig);
@@ -58,7 +62,11 @@ for eqni = 1:length(polyorig),
 	writeatrow = 1;
 	for termi = 1:size(polyorig{eqni},1),
 		degreedifference = di - sum(polyorig{eqni}(writeatrow,2:end));
-		polyorighom{eqni}(writeatrow,:) = [polyorig{eqni}(writeatrow,:) degreedifference];
+		if ~firstcol,
+            polyorighom{eqni}(writeatrow,:) = [polyorig{eqni}(writeatrow,:) degreedifference];
+        else
+              polyorighom{eqni}(writeatrow,:) = [polyorig{eqni}(writeatrow,1) degreedifference polyorig{eqni}(writeatrow,2:end)];  
+        end
 		writeatrow=writeatrow+1;
 	end
 end
